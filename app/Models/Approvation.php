@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * Class Approvation
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Approvation extends Model
 {
+	use HasUuids;
 	protected $table = 'approvations';
 	public $incrementing = false;
 

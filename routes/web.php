@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 
@@ -54,5 +55,13 @@ Route::middleware('isLogin')->group(function() {
             Route::post('/{serviceId}/update', 'update')->name('services.update');
             Route::get('/{serviceId}/delete', 'destroy')->name('services.destroy');
         });
+    });
+    Route::controller(TransactionController::class)->prefix('/transactions')->group(function() {
+        Route::get('/', 'index')->name('transactions.index');
+        Route::get('/create', 'create')->name('transactions.create');
+        Route::post('/store', 'store')->name('transactions.store');
+        Route::get('/{id}', 'show')->name('transactions.detail');
+        Route::post('/{id}/update', 'update')->name('transactions.update');
+        Route::get('/{id}/delete', 'destroy')->name('transactions.destroy');
     });
 });

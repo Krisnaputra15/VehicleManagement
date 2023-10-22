@@ -89,4 +89,11 @@ class UserController extends Controller
         }
         return redirect()->route('users.detail', ['id' => $id])->with('error', "Gagal menghapus data user");
     }
+
+    // api
+
+    public function getUser(){
+        $user = User::select('id','email')->get();
+        return $user;
+    }
 }

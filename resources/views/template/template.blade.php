@@ -148,10 +148,10 @@
                       <div data-i18n="Analytics">Pengajuan</div>
                     </a>
                   </li> --}}
-                  <li class="menu-item{{$page == 'faq' ? ' active' : ''}}">
-                    <a href="{{url('/admin/faqs')}}" class="menu-link">
-                      <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                      <div data-i18n="Analytics">FAQ</div>
+                  <li class="menu-item{{$page == 'transactions' ? ' active' : ''}}">
+                    <a href="{{route('transactions.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-book-content"></i>
+                      <div data-i18n="Analytics">Peminjaman</div>
                     </a>
                   </li>
                 <!-- User interface -->
