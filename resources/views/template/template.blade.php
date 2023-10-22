@@ -4,13 +4,13 @@
 >
   <head>
     <meta charset="utf-8">
-    <title>Ride.it - Vehicle Manage,ent</title>
+    <title>Ride.it | @yield('title')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Construction Company Website Template" name="keywords">
     <meta content="Construction Company Website Template" name="description">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{secure_asset('admin/img/favicon/favicon.ico')}}" />
+    <link rel="icon" type="image/x-icon" href="{{asset('admin/img/favicon/favicon.ico')}}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,27 +22,28 @@
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"> --}}
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{secure_asset('admin/vendor/fonts/boxicons.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/vendor/fonts/boxicons.css')}}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{secure_asset('admin/vendor/css/core.css')}}" />
-    <link rel="stylesheet" href="{{secure_asset('admin/vendor/css/theme-default.css')}}" />
-    <link rel="stylesheet" href="{{secure_asset('admin/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/vendor/css/core.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/vendor/css/theme-default.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/css/demo.css')}}" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{secure_asset('admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
 
-    <link rel="stylesheet" href="{{secure_asset('admin/vendor/libs/apex-charts/apex-charts.css')}}" />
+    <link rel="stylesheet" href="{{asset('admin/vendor/libs/apex-charts/apex-charts.css')}}" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="{{secure_asset('admin/vendor/js/helpers.js')}}"></script>
+    <script src="{{asset('admin/vendor/js/helpers.js')}}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{secure_asset('admin/js/config.js')}}"></script>
+    <script src="{{asset('admin/js/config.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -53,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme bg-black">
           <div class="app-brand demo">
-            <a href="{{url('/admin/home')}}" class="app-brand-link">
+            <a href="{{route('home')}}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -109,7 +110,7 @@
                   </g>
                 </svg>
               </span>
-              <span class="fw-bolder fs-3 ms-2" style="color: white">Village<span style="color: #fdbe33">ment</span></span>
+              <span class="fw-bolder fs-3 ms-2" style="color: white">Ride<span style="color: #fdbe33">it</span></span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -119,59 +120,63 @@
 
           <div>
             <ul class="menu-inner py-" >
-              <!-- Dashboard -->
-              <li class="menu-item{{$page == 'home' ? ' active' : ''}}">
-                <a href="{{url('/admin/home')}}" class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                  <div data-i18n="Analytics">Dashboard</div>
-                </a>
-              </li>
-              <!-- User -->
-              <li class="menu-item{{$page == 'users' ? ' active' : ''}}">
-                  <a href="{{url('/admin/users')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-user-plus"></i>
-                    <div data-i18n="Analytics">User</div>
+              @if(auth()->user()->level == 1)
+                <li class="menu-item{{$page == 'home' ? ' active' : ''}}">
+                  <a href="{{route('home')}}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="Analytics">Dashboard</div>
                   </a>
                 </li>
-                <!-- Forum -->
-              <li class="menu-item{{$page == 'forums' ? ' active' : ''}}">
-                  <a href="{{url('/admin/forums')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-chat"></i>
-                    <div data-i18n="Analytics">Forum</div>
-                  </a>
-                </li>
-                <!-- Layanan -->
-              <li class="menu-item{{$page == 'layanan' ? ' active' : ''}}">
-                  <a href="{{url('/admin/layanan')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-support"></i>
-                    <div data-i18n="Analytics">Layanan</div>
-                  </a>
-                </li>
-                <li class="menu-item{{$page == 'faq' ? ' active' : ''}}">
-                  <a href="{{url('/admin/faqs')}}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-question-mark"></i>
-                    <div data-i18n="Analytics">FAQ</div>
-                  </a>
-                </li>
-              <!-- User interface -->
-              <li class="menu-item">
-                <a href="javascript:void(0)" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                  <div data-i18n="User interface">Akun</div>
-                </a>
-                <ul class="menu-sub">
-                  <li class="menu-item{{$page == 'profile' ? ' active' : ''}}">
-                      <a href="{{url('/admin/profil')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-support"></i>
-                        <div data-i18n="Analytics">Profil</div>
-                      </a>
+                <!-- User -->
+                <li class="menu-item{{$page == 'users' ? ' active' : ''}}">
+                    <a href="{{route('users.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                      <div data-i18n="Analytics">User</div>
+                    </a>
                   </li>
-                  <li class="menu-item">
-                      <a href="{{url('logout')}}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-exit"></i>
-                        <div data-i18n="Analytics">Logout</div>
-                      </a>
+                  <!-- Forum -->
+                {{-- <li class="menu-item{{$page == 'forums' ? ' active' : ''}}">
+                    <a href="{{route('vehicle.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-chat"></i>
+                      <div data-i18n="Analytics">Kendaraan</div>
+                    </a>
+                  </li> --}}
+                  <!-- Layanan -->
+                {{-- <li class="menu-item{{$page == 'layanan' ? ' active' : ''}}">
+                    <a href="{{route('transaction.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-support"></i>
+                      <div data-i18n="Analytics">Pengajuan</div>
+                    </a>
+                  </li> --}}
+                  <li class="menu-item{{$page == 'faq' ? ' active' : ''}}">
+                    <a href="{{url('/admin/faqs')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                      <div data-i18n="Analytics">FAQ</div>
+                    </a>
+                  </li>
+                <!-- User interface -->
+                <li class="menu-item">
+                  <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                    <div data-i18n="User interface">Akun</div>
+                  </a>
+                  <ul class="menu-sub">
+                    <li class="menu-item{{$page == 'profile' ? ' active' : ''}}">
+                        <a href="{{url('/admin/profil')}}" class="menu-link">
+                          <i class="menu-icon tf-icons bx bx-support"></i>
+                          <div data-i18n="Analytics">Profil</div>
+                        </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{url('logout')}}" class="menu-link">
+                          <i class="menu-icon tf-icons bx bx-exit"></i>
+                          <div data-i18n="Analytics">Logout</div>
+                        </a>
+                    </li>
+              @else
+
+              @endif
+              <!-- Dashboard -->
                 </ul>
               </li>
             </ul>
@@ -203,22 +208,68 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{secure_asset('admin/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{secure_asset('admin/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{secure_asset('admin/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{secure_asset('admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
 
-    <script src="{{secure_asset('admin/vendor/js/menu.js')}}"></script>
+
+
+        @if ($message = Session::get('success'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ $message }}'
+            })
+        @endif
+        @if ($message = Session::get('error'))
+            Toast.fire({
+                icon: 'error',
+                title: '{{ $message }}'
+            })
+        @endif
+        @if ($message = Session::get('warning'))
+            Toast.fire({
+                icon: 'warning',
+                title: '{{ $message }}'
+            })
+        @endif
+        @if ($message = Session::get('info'))
+            Toast.fire({
+                icon: 'info',
+                title: '{{ $message }}'
+            })
+        @endif
+        @if ($message = Session::get('message'))
+            Toast.fire({
+                icon: 'info',
+                title: '{{ $message }}'
+            })
+        @endif
+    </script>
+    <script src="{{asset('admin/vendor/libs/jquery/jquery.js')}}"></script>
+    <script src="{{asset('admin/vendor/libs/popper/popper.js')}}"></script>
+    <script src="{{asset('admin/vendor/js/bootstrap.js')}}"></script>
+    <script src="{{asset('admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+
+    <script src="{{asset('admin/vendor/js/menu.js')}}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{secure_asset('admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
+    <script src="{{asset('admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
 
     <!-- Main JS -->
-    <script src="{{secure_asset('admin/js/main.js')}}"></script>
+    <script src="{{asset('admin/js/main.js')}}"></script>
 
     <!-- Page JS -->
-    <script src="{{secure_asset('admin/js/dashboards-analytics.js')}}"></script>
+    <script src="{{asset('admin/js/dashboards-analytics.js')}}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +23,16 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->group(function() {
     Route::get('/login', 'loginView')->name('login.view');
     Route::post('/login/process', 'loginProcess')->name('login.process');
+});
+
+Route::middleware('isLogin')->group(function() {
+    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::controller(UserController::class)->prefix('/users')->group(function() {
+        Route::get('/', 'index')->name('users.index');
+        Route::get('/create', 'create')->name('users.create');
+        Route::post('/store', 'store')->name('users.store');
+        Route::get('/{id}', 'show')->name('users.detail');
+        Route::post('/{id}/update', 'update')->name('users.update');
+        Route::get('/delete', 'destroy')->name('users.destroy');
+    });
 });
