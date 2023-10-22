@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * Class Vehicle
@@ -16,7 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $id
  * @property string $type
  * @property string $serie
- * @property Carbon $year
  * @property string $license_number
  * @property int $fuel_capacity
  * @property int $service_cycle
@@ -32,11 +32,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vehicle extends Model
 {
+	use HasUuids;
 	protected $table = 'vehicles';
 	public $incrementing = false;
 
 	protected $casts = [
-		'year' => 'datetime',
+		'year' => 'int',
 		'fuel_capacity' => 'int',
 		'service_cycle' => 'int',
 		'need_service' => 'bool',

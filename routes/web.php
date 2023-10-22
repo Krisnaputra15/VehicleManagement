@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->group(function() {
     Route::get('/login', 'loginView')->name('login.view');
     Route::post('/login/process', 'loginProcess')->name('login.process');
+    Route::get('/logout', 'logout')->name('logout');
 });
 
 Route::middleware('isLogin')->group(function() {
@@ -33,6 +35,14 @@ Route::middleware('isLogin')->group(function() {
         Route::post('/store', 'store')->name('users.store');
         Route::get('/{id}', 'show')->name('users.detail');
         Route::post('/{id}/update', 'update')->name('users.update');
-        Route::get('/delete', 'destroy')->name('users.destroy');
+        Route::get('/{id}/delete', 'destroy')->name('users.destroy');
+    });
+    Route::controller(VehicleController::class)->prefix('/vehicles')->group(function() {
+        Route::get('/', 'index')->name('vehicles.index');
+        Route::get('/create', 'create')->name('vehicles.create');
+        Route::post('/store', 'store')->name('vehicles.store');
+        Route::get('/{id}', 'show')->name('vehicles.detail');
+        Route::post('/{id}/update', 'update')->name('vehicles.update');
+        Route::get('/{id}/delete', 'destroy')->name('vehicles.destroy');
     });
 });

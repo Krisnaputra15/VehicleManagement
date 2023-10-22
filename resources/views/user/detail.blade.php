@@ -89,9 +89,9 @@
                         <form id="formAccountDeactivation" method="GET"
                             action="{{ route('users.destroy', ['id' => $user->id]) }}">
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="accountActivation"
+                                <input class="form-check-input" type="checkbox" name="deleteConfirmation"
                                     id="accountActivation" required />
-                                <label class="form-check-label" for="accountActivation">Saya menyetujui penghapusan akun
+                                <label class="form-check-label" for="deleteConfirmation">Saya menyetujui penghapusan akun
                                     ini</label>
                             </div>
                             <button type="submit" class="btn btn-danger deactivate-account">Hapus Akun</button>

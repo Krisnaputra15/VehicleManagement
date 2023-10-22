@@ -135,12 +135,12 @@
                     </a>
                   </li>
                   <!-- Forum -->
-                {{-- <li class="menu-item{{$page == 'forums' ? ' active' : ''}}">
-                    <a href="{{route('vehicle.index')}}" class="menu-link">
-                      <i class="menu-icon tf-icons bx bx-chat"></i>
+                <li class="menu-item{{$page == 'vehicles' ? ' active' : ''}}">
+                    <a href="{{route('vehicles.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-car"></i>
                       <div data-i18n="Analytics">Kendaraan</div>
                     </a>
-                  </li> --}}
+                  </li>
                   <!-- Layanan -->
                 {{-- <li class="menu-item{{$page == 'layanan' ? ' active' : ''}}">
                     <a href="{{route('transaction.index')}}" class="menu-link">

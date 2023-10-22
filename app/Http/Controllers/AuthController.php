@@ -30,12 +30,15 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        Log::channel('activity')->info("{$request->ip} : User {$user->email} mencoba untuk login pada ".date('Y-m-d H:i:s'));
+        Log::channel('activity')->info(request()->ip() . " | User {$user->email} mencoba untuk login pada ".date('Y-m-d H:i:s'));
         return redirect()->route('home');
     }
 
     public function logout(){
-        Log::channel('activity')->alert(request()->ip()." : User ".Auth::user()->email." mencoba untuk logout");
+        if(!Auth::check()){
+            return redirect()->route('login.view');
+        }
+        Log::channel('activity')->info(request()->ip()." | User ".Auth::user()->email." telah logout dari sistem");
         Auth::logout();
         return redirect()->route('login.view');
     }
