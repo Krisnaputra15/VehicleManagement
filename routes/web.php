@@ -31,7 +31,10 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::middleware('isLogin')->group(function() {
-    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::controller(HomeController::class)->group(function() {
+        Route::get('/','home')->name('home');
+        Route::get('/monthly-report', 'download')->name('download');
+    });
     Route::controller(UserController::class)->prefix('/users')->group(function() {
         Route::get('/', 'index')->name('users.index');
         Route::get('/create', 'create')->name('users.create');
@@ -64,7 +67,7 @@ Route::middleware('isLogin')->group(function() {
         Route::get('/{id}', 'show')->name('transactions.detail');
         Route::post('/{id}/update', 'update')->name('transactions.update');
         Route::get('/{id}/delete', 'destroy')->name('transactions.destroy');
-        Route::get('/{id}/{action}', 'setAction')->name('transactions.setaction');
+        Route::get('/{id}/action', 'setAction')->name('transactions.setaction');
         Route::controller(ApprovalController::class)->prefix('{id}/approval')->group(function() {
             Route::get('/', 'index')->name('approvations.index');
             Route::post('/store', 'store')->name('approvations.store');

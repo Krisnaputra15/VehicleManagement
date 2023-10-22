@@ -64,7 +64,7 @@ Daftar Pengajuan
                                     <td>{{ $u->transaction->user->fullname }}</td>
                                     <td>{{ $u->transaction->vehicle->serie }} | {{ $u->transaction->vehicle->license_number }}</td>
                                     <td>
-                                        <span class="badge bg-label-{{$u->is_approved == 1 ? "success" : "danger"}} me-1">Kembali {{$u->return_status == 1? "Diterima" : "Ditolak"}}</span>
+                                        <span class="badge bg-label-{{$u->is_approved == 1 ? "success" : "danger"}} me-1">{{$u->return_status == 1? "Diterima" : "Ditolak"}}</span>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -91,9 +91,6 @@ Daftar Pengajuan
                 </tbody>
                 </table>
             </div>
-        </div>
-        <div class="d-flex justify-content-center py-3">
-            <a class="btn btn-primary text-white" href="{{route('transactions.create')}}">Tambah pengajuan baru</a>
         </div>
         <!--/ Basic Bootstrap Table -->
     </div>

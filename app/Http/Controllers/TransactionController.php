@@ -153,12 +153,16 @@ class TransactionController extends Controller
             }
             if($action == 'return'){
                 $dateMustReturn = date('Y-m-d H:i:s', strtotime($transaction->booking_start . " +{$transaction->booking_duration} days"));
+                return $dateMustReturn <= date('Y-m-d H:i:s');
                 $update = $transaction->update([
                     'return_date' => date('Y-m-d H:i:s'),
                     'distance_traveled' => $request->distance_traveled,
                     'fuel_consumed' => $request->fuel_consumed,
                     'is_returned' => 1,
                     'return_status' => $dateMustReturn <= date('Y-m-d H:i:s') ? "on time" : "late"
+                ]);
+                $updateVehicle = Vehicle::where('id', $transaction->vehicle_id)->update([
+                    'is_booked' => 0,
                 ]);
             }
             Log::channel('activity')->alert(request()->ip . " | User " . Auth::user()->email . " mengubah status transaksi dengan id {$transaction->id}");
