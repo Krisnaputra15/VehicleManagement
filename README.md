@@ -13,7 +13,7 @@ How to use this app :
 6. access the login endpoint (/login) and use the account available below
 
 List of available accounts (email - password) : 
-1. krisnap2002@gmail.com - fullclip
+1. krisna@gmail.com - fullclip
 2. aliyanashwa@gmail.com - fullclip
 3. almira@gmail.com - fullclip
 4. adhra@gmail.com - fullclip
