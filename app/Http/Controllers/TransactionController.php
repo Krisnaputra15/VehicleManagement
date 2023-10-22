@@ -6,7 +6,6 @@ use App\Models\Approvation;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +27,7 @@ class TransactionController extends Controller
      */
     public function create(){
         $vehicles = Vehicle::where('need_service', 0)->where('is_booked', 0)->select('id','serie','license_number')->get();
-        $users = DB::select("SELECT id, email FROM users WHERE id NOT IN(SELECT DISTINCT driver_id FROM transactions WHERE is_returned = 0)");
+        $users = DB::select("SELECT id, email FROM users WHERE id NOT IN(SELECT DISTINCT driver_id FROM transactions WHERE is_returned = 0) AND level = 2");
         return view('transaction.form', ['page' => 'transactions', 'vehicles' => $vehicles, 'users' => $users]);
     }
 
@@ -93,7 +92,7 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::find($id);
         $vehicles = Vehicle::where('need_service', 0)->select('id', 'serie', 'license_number')->get();
-        $users = DB::select("SELECT id, email FROM users");
+        $users = DB::select("SELECT id, email FROM users WHERE level = 2");
         Log::channel('activity')->alert(request()->ip . " | User " . Auth::user()->email . " mengakses detail data pengajuan dengan id {$transaction->id}");
         return view('transaction.detail', ['page' => 'transactions', 'transaction' => $transaction, 'vehicles' => $vehicles, 'users' => $users]);
     }
@@ -141,5 +140,31 @@ class TransactionController extends Controller
             return redirect()->route('transactions.index')->with('success', "Berhasil menghapus data pengajuan");
         }
         return redirect()->route('transactions.detail', ['id' => $id])->with('error', "Gagal menghapus data pengajuan");
+    }
+
+    public function setAction(Request $request, string $id, string $action){
+        $message = $action == 'pickup' ? "mengambil" : "mengembalikan";
+        try {
+            $transaction = Transaction::find($id);
+            if($action == 'pickup'){
+                $update = $transaction->update([
+                    'pickup_date' => date('Y-m-d H:i:s')
+                ]);
+            }
+            if($action == 'return'){
+                $dateMustReturn = date('Y-m-d H:i:s', strtotime($transaction->booking_start . " +{$transaction->booking_duration} days"));
+                $update = $transaction->update([
+                    'return_date' => date('Y-m-d H:i:s'),
+                    'distance_traveled' => $request->distance_traveled,
+                    'fuel_consumed' => $request->fuel_consumed,
+                    'is_returned' => 1,
+                    'return_status' => $dateMustReturn <= date('Y-m-d H:i:s') ? "on time" : "late"
+                ]);
+            }
+            Log::channel('activity')->alert(request()->ip . " | User " . Auth::user()->email . " mengubah status transaksi dengan id {$transaction->id}");
+            return redirect()->back()->with('success', "Berhasil {$message} kendaraan");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', "Gagal {$message} kendaraan");
+        }
     }
 }

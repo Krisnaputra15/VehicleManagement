@@ -42,9 +42,9 @@ Daftar Pengajuan
                                     <td>
                                         @if($u->is_approved == 0)
                                             <span class="badge bg-label-primary me-1">Butuh Persetujuan</span>
-                                        @elseif($u->pickup_date == null)
-                                            <span class="badge bg-label-alert me-1">Belum Diambil</span>
-                                        @elseif($u->pickup_date != null)
+                                        @elseif($u->pickup_date == null and $u->is_returned == 0)
+                                            <span class="badge bg-label-danger me-1">Belum Diambil</span>
+                                        @elseif($u->pickup_date != null and $u->is_returned == 0)
                                             <span class="badge bg-label-secondary me-1">Dipinjam</span>
                                         @elseif($u->is_returned == 1)
                                             <span class="badge bg-label-{{$u->return_status == "on time" ? "success" : "danger"}} me-1">Kembali {{$u->return_status == "on time" ? "Tepat Waktu" : "Terlambat"}}</span>
@@ -60,8 +60,17 @@ Daftar Pengajuan
                                             <div class="dropdown-menu" id="detail">
                                                 <a class="dropdown-item" href="{{ route('transactions.detail', ['id' => $u->id]) }}"><i
                                                         class="bx bx-detail me-2"></i> Lihat detail</a>
-                                                <a class="dropdown-item" href="{{ route('transactions.index', ['id' => $u->id]) }}"><i
+                                                <a class="dropdown-item" href="{{ route('approvations.index', ['id' => $u->id]) }}"><i
                                                         class="bx bx-cog me-2"></i> Lihat Persetujuan</a> 
+                                                @if($u->is_approved == 1 and $u->pickup_date == null and $u->is_returned == 0)
+                                                    <a class="dropdown-item" href="{{ route('transactions.setaction', ['id' => $u->id, 'action' => 'pickup']) }}"><i
+                                                        class="bx bx-detail me-2"></i> Set diambil</a>
+                                                @endif
+
+                                                @if($u->is_approved == 1 and $u->pickup_date != null and $u->is_returned == 0)
+                                                    <a class="dropdown-item" href="{{ route('transactions.setaction', ['id' => $u->id, 'action' => 'return']) }}"><i
+                                                        class="bx bx-detail me-2"></i> Set dikembalikan</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>

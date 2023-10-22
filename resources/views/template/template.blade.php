@@ -120,13 +120,13 @@
 
           <div>
             <ul class="menu-inner py-" >
-              @if(auth()->user()->level == 1)
-                <li class="menu-item{{$page == 'home' ? ' active' : ''}}">
+              <li class="menu-item{{$page == 'home' ? ' active' : ''}}">
                   <a href="{{route('home')}}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div data-i18n="Analytics">Dashboard</div>
                   </a>
                 </li>
+              @if(auth()->user()->level == 1)
                 <!-- User -->
                 <li class="menu-item{{$page == 'users' ? ' active' : ''}}">
                     <a href="{{route('users.index')}}" class="menu-link">
@@ -154,6 +154,14 @@
                       <div data-i18n="Analytics">Peminjaman</div>
                     </a>
                   </li>
+                @else
+                  <li class="menu-item{{$page == 'transactions' ? ' active' : ''}}">
+                    <a href="{{route('nonadmin.approvations.index')}}" class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-book-content"></i>
+                      <div data-i18n="Analytics">Persetujuan</div>
+                    </a>
+                  </li>
+                @endif
                 <!-- User interface -->
                 <li class="menu-item">
                   <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -173,9 +181,6 @@
                           <div data-i18n="Analytics">Logout</div>
                         </a>
                     </li>
-              @else
-
-              @endif
               <!-- Dashboard -->
                 </ul>
               </li>

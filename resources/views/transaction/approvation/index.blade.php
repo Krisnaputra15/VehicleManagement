@@ -9,43 +9,41 @@ Daftar Pengajuan
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Home /</span> Pengajuan</h4>
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">Data Pengajuan Penggunaan Kendaraan <span style="font-weight:bold;">Rideit</span></h5>
+            <h5 class="card-header">Data Permintaan Persetujuan Penggunaan Kendaraan <span style="font-weight:bold;">Rideit</span></h5>
             <div class="table">
-                @if (sizeof($transactions) == 0)
+                @if (sizeof($approvation) == 0)
                     <p class="text-center">Belum ada data pengajuan terdaftar</p>
                 @else
                     <table class="table">
                         <thead>
                             <tr>
+                                @if(auth()->user()->level == 1)
                                 <th>No</th>
                                 <th>Nama Penyetuju</th>
+                                <th>Jabatan</th>
                                 <th>Status</th>
                                 <th>Actions</th>
+                                @else
+                                <th>No</th>
+                                <th>Nama Driver</th>
+                                <th>Kendaraan</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                             @php $i = 1; @endphp
-                            @foreach ($transactions as $u)
+                            @foreach ($approvation as $u)
                                 <tr>
+                                    @if(auth()->user()->level == 1)
                                     <td>
                                         <p>{{ $i }}</p>
                                     </td>
                                     <td>{{ $u->user->fullname }}</td>
-                                    <td>{{ $u->vehicle->serie." | ".$u->vehicle->license_number }}</td>
-                                    <td>{{ $u->booking_start }}</td>
-                                    <td>{{ $u->booking_duration }}</td>
-                                    <td>{{ $u->return_date }}</td>
+                                    <td>{{ $u->user->position }}</td>
                                     <td>
-                                        @if($u->is_approved == 0)
-                                            <span class="badge bg-label-primary me-1">Butuh Persetujuan</span>
-                                        @elseif($u->pickup_date == null)
-                                            <span class="badge bg-label-alert me-1">Belum Diambil</span>
-                                        @elseif($u->pickup_date != null)
-                                            <span class="badge bg-label-secondary me-1">Dipinjam</span>
-                                        @elseif($u->is_returned == 1)
-                                            <span class="badge bg-label-{{$u->return_status == "on time" ? "success" : "danger"}} me-1">Kembali {{$u->return_status == "on time" ? "Tepat Waktu" : "Terlambat"}}</span>
-                                        @endif
-                                        
+                                        <span class="badge bg-label-{{$u->is_approved == 1 ? "success" : "danger"}} me-1">{{$u->is_approved == 1? "Diterima" : "Ditolak"}}</span>
                                     </td>
                                     <td>
                                         <div class="dropdown">
@@ -54,13 +52,38 @@ Daftar Pengajuan
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu" id="detail">
-                                                <a class="dropdown-item" href="{{ route('transactions.detail', ['id' => $u->id]) }}"><i
-                                                        class="bx bx-detail me-2"></i> Lihat detail</a>
-                                                <a class="dropdown-item" href="{{ route('transactions.index', ['id' => $u->id]) }}"><i
-                                                        class="bx bx-cog me-2"></i> Lihat Persetujuan</a> 
+                                                <a class="dropdown-item" href="{{ route('approvations.destroy', ['id' => $transaction->id, 'approvationId' => $u->id]) }}"><i
+                                                        class="bx bx-detail me-2"></i> Hapus data</a>
                                             </div>
                                         </div>
                                     </td>
+                                    @else
+                                    <td>
+                                        <p>{{ $i }}</p>
+                                    </td>
+                                    <td>{{ $u->transaction->user->fullname }}</td>
+                                    <td>{{ $u->transaction->vehicle->serie }} | {{ $u->transaction->vehicle->license_number }}</td>
+                                    <td>
+                                        <span class="badge bg-label-{{$u->is_approved == 1 ? "success" : "danger"}} me-1">Kembali {{$u->return_status == 1? "Diterima" : "Ditolak"}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown" data-bs-target="#detail">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu" id="detail">
+                                                @if($u->is_approved == 1)
+                                                    <a class="dropdown-item" href="{{ route('nonadmin.approvations.setaction', ['id' => $u->id, 'action' => 'deny']) }}"><i
+                                                        class="bx bx-detail me-2"></i> Tolak</a>
+                                                @else
+                                                    <a class="dropdown-item" href="{{ route('nonadmin.approvations.setaction', ['id' => $u->id, 'action' => 'approve']) }}"><i
+                                                        class="bx bx-detail me-2"></i> Terima</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                    @endif
                                 </tr>
                                 @php ++$i @endphp
                             @endforeach

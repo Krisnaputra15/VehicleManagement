@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApprovalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -63,5 +64,16 @@ Route::middleware('isLogin')->group(function() {
         Route::get('/{id}', 'show')->name('transactions.detail');
         Route::post('/{id}/update', 'update')->name('transactions.update');
         Route::get('/{id}/delete', 'destroy')->name('transactions.destroy');
+        Route::get('/{id}/{action}', 'setAction')->name('transactions.setaction');
+        Route::controller(ApprovalController::class)->prefix('{id}/approval')->group(function() {
+            Route::get('/', 'index')->name('approvations.index');
+            Route::post('/store', 'store')->name('approvations.store');
+            Route::get('/{approvationId}/delete', 'destroy')->name('approvations.destroy');
+        });
+    });
+
+    Route::controller(ApprovalController::class)->prefix('/approval')->group(function () {
+        Route::get('/', 'index')->name('nonadmin.approvations.index');
+        Route::get('/{id}/{action}', 'setApprovation')->name('nonadmin.approvations.setaction');
     });
 });
