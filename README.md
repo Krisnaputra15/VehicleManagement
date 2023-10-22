@@ -1,8 +1,10 @@
 # VehicleManagement
 
-Built by Laravel 10\n
-DB Version : 10.4.25-MariaDB\n
-PHP Version : 8.1.2\n
+Built by Laravel 10
+<br>
+DB Version : 10.4.25-MariaDB
+<br>
+PHP Version : 8.1.2
 
 How to use this app : 
 1. Clone this repo to your local project
