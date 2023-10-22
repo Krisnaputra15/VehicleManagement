@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 
@@ -44,5 +45,14 @@ Route::middleware('isLogin')->group(function() {
         Route::get('/{id}', 'show')->name('vehicles.detail');
         Route::post('/{id}/update', 'update')->name('vehicles.update');
         Route::get('/{id}/delete', 'destroy')->name('vehicles.destroy');
+        // Route::get('/{id}/services', [ServiceController::class, 'index'])->name('services.index');
+        Route::controller(ServiceController::class)->prefix('{id}/services')->group(function() {
+            Route::get('/', 'index')->name('services.index');
+            Route::get('/create', 'create')->name('services.create');
+            Route::post('/store', 'store')->name('services.store');
+            Route::get('/{serviceId}', 'show')->name('services.detail');
+            Route::post('/{serviceId}/update', 'update')->name('services.update');
+            Route::get('/{serviceId}/delete', 'destroy')->name('services.destroy');
+        });
     });
 });

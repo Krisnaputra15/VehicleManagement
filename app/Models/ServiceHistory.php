@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 /**
  * Class ServiceHistory
@@ -25,17 +26,22 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ServiceHistory extends Model
 {
+	use HasUuids;
 	protected $table = 'service_histories';
 	public $incrementing = false;
 
 	protected $casts = [
-		'service_date' => 'datetime'
+		'service_date' => 'datetime',
+		'price' => 'int',
+		'serviced_at_km' => 'int',
 	];
 
 	protected $fillable = [
 		'vehicle_id',
 		'service_desc',
-		'service_date'
+		'service_date',
+		'serviced_at_km',
+		'price'
 	];
 
 	public function vehicle()

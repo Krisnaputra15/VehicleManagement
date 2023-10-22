@@ -57,7 +57,7 @@ Daftar Pengguna
                                             <div class="dropdown-menu" id="detail">
                                                 <a class="dropdown-item" href="{{ route('vehicles.detail', ['id' => $u->id]) }}"><i
                                                         class="bx bx-detail me-2"></i> Lihat detail</a>
-                                                <a class="dropdown-item" href="{{ route('vehicles.detail', ['id' => $u->id]) }}"><i
+                                                <a class="dropdown-item" href="{{ route('services.index', ['id' => $u->id]) }}"><i
                                                         class="bx bx-cog me-2"></i> Lihat Histori Servis</a> 
                                             </div>
                                         </div>
